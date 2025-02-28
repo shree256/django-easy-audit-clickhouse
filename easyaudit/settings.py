@@ -154,7 +154,6 @@ CRUD_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_CRUD_EVENT_LIST_FILTER",
     [
         "event_type",
-        "content_type",
         "user",
         "datetime",
     ],

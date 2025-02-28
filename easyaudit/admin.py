@@ -54,7 +54,6 @@ def export_to_csv(modeladmin, request, queryset):
 class CRUDEventAdmin(EasyAuditModelAdmin):
     list_display = [
         "get_event_type_display",
-        "get_content_type",
         "object_id",
         "object_repr_link",
         "user_link",
@@ -66,7 +65,6 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
     readonly_fields = [
         "event_type",
         "object_id",
-        "get_content_type",
         "object_repr",
         "object_json_repr_prettified",
         "get_user",
@@ -75,18 +73,6 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "changed_fields_prettified",
     ]
     exclude = ["object_json_repr", "changed_fields"]
-
-    def get_changelist_instance(self, *args, **kwargs):
-        changelist_instance = super().get_changelist_instance(*args, **kwargs)
-        content_type_ids = [obj.content_type_id for obj in changelist_instance.result_list]
-        self.content_types_by_id = {
-            ct.id: ct for ct in ContentType.objects.filter(id__in=content_type_ids)
-        }
-        return changelist_instance
-
-    @admin.display(description="Content Type")
-    def get_content_type(self, obj):
-        return self.content_types_by_id[obj.content_type_id]
 
     @admin.display(description="User")
     def get_user(self, obj):
@@ -99,12 +85,7 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         else:
             escaped_obj_repr = escape(obj.object_repr)
             try:
-                content_type = self.get_content_type(obj)
-                url = reverse(
-                    f"admin:{content_type.app_label}_{content_type.model}_change",
-                    args=(obj.object_id,),
-                )
-                html = f'<a href="{url}">{escaped_obj_repr}</a>'
+                html = f'<a href=""></a>'
             except Exception:
                 html = escaped_obj_repr
         return mark_safe(html)  # noqa: S308

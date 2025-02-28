@@ -33,12 +33,6 @@ class CRUDEvent(models.Model):
 
     event_type = models.SmallIntegerField(choices=TYPES, verbose_name=_("Event type"))
     object_id = models.CharField(max_length=255, verbose_name=_("Object ID"))
-    content_type = models.ForeignKey(
-        ContentType,
-        on_delete=models.CASCADE,
-        db_constraint=False,
-        verbose_name=_("Content type"),
-    )
     object_repr = models.TextField(
         default="", blank=True, verbose_name=_("Object representation")
     )
@@ -69,7 +63,7 @@ class CRUDEvent(models.Model):
         verbose_name = _("CRUD event")
         verbose_name_plural = _("CRUD events")
         ordering = ["-datetime"]
-        indexes = [models.Index(fields=["object_id", "content_type"])]
+        indexes = [models.Index(fields=["object_id"])]
 
     def is_create(self):
         return self.event_type == self.CREATE
