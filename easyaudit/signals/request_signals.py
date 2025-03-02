@@ -93,7 +93,7 @@ def request_started_handler(sender, **kwargs):
             "query_string": query_string,
             "user_id": getattr(user, "id", None),
             "remote_ip": remote_ip,
-            "datetime": timezone.now(),
+            "created_at": timezone.now(),
         }
     )
 

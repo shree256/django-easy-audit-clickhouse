@@ -39,7 +39,7 @@ def log_event(event_type, instance, object_id, object_json_repr, **kwargs):
     with transaction.atomic(using=DATABASE_ALIAS):
         audit_logger.crud(
             {
-                "datetime": timezone.now(),
+                "created_at": timezone.now(),
                 "event_type": event_type,
                 "object_id": object_id,
                 "object_json_repr": object_json_repr or "",

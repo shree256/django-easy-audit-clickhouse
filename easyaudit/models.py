@@ -56,12 +56,12 @@ class CRUDEvent(models.Model):
         help_text=_("String version of the user pk"),
         verbose_name=_("User PK as string"),
     )
-    datetime = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
 
     class Meta:
         verbose_name = _("CRUD event")
         verbose_name_plural = _("CRUD events")
-        ordering = ["-datetime"]
+        ordering = ["-created_at"]
         indexes = [models.Index(fields=["object_id"])]
 
     def is_create(self):
@@ -98,12 +98,12 @@ class LoginEvent(models.Model):
     remote_ip = models.CharField(
         max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
     )
-    datetime = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
 
     class Meta:
         verbose_name = _("login event")
         verbose_name_plural = _("login events")
-        ordering = ["-datetime"]
+        ordering = ["-created_at"]
 
 
 class RequestEvent(models.Model):
@@ -123,11 +123,11 @@ class RequestEvent(models.Model):
     remote_ip = models.CharField(
         max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
     )
-    datetime = models.DateTimeField(
+    created_at = models.DateTimeField(
         auto_now_add=True, db_index=True, verbose_name=_("Date time")
     )
 
     class Meta:
         verbose_name = _("request event")
         verbose_name_plural = _("request events")
-        ordering = ["-datetime"]
+        ordering = ["-created_at"]

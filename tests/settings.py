@@ -122,6 +122,6 @@ STATIC_URL = "/static/"
 
 DJANGO_EASY_AUDIT_REQUEST_EVENT_LIST_FILTER = [
     "method",
-    "datetime",
+    "created_at",
 ]
 DJANGO_EASY_AUDIT_PROPAGATE_EXCEPTIONS = True

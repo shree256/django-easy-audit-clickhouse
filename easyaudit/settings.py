@@ -153,7 +153,7 @@ CRUD_EVENT_LIST_FILTER = getattr(
     [
         "event_type",
         "user",
-        "datetime",
+        "created_at",
     ],
 )
 LOGIN_EVENT_LIST_FILTER = getattr(
@@ -162,7 +162,7 @@ LOGIN_EVENT_LIST_FILTER = getattr(
     [
         "login_type",
         "user",
-        "datetime",
+        "created_at",
     ],
 )
 REQUEST_EVENT_LIST_FILTER = getattr(
@@ -171,7 +171,7 @@ REQUEST_EVENT_LIST_FILTER = getattr(
     [
         "method",
         "user",
-        "datetime",
+        "created_at",
     ],
 )
 

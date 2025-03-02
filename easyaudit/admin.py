@@ -56,9 +56,9 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "object_id",
         "object_repr_link",
         "user_link",
-        "datetime",
+        "created_at",
     ]
-    date_hierarchy = "datetime"
+    date_hierarchy = "created_at"
     list_filter = CRUD_EVENT_LIST_FILTER
     search_fields = CRUD_EVENT_SEARCH_FIELDS
     readonly_fields = [
@@ -68,7 +68,7 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "object_json_repr_prettified",
         "get_user",
         "user_pk_as_string",
-        "datetime",
+        "created_at",
         "changed_fields_prettified",
     ]
     exclude = ["object_json_repr", "changed_fields"]
@@ -103,13 +103,13 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
 # Login events
 class LoginEventAdmin(EasyAuditModelAdmin):
     list_display = [
-        "datetime",
+        "created_at",
         "get_login_type_display",
         "user_link",
         "get_username",
         "remote_ip",
     ]
-    date_hierarchy = "datetime"
+    date_hierarchy = "created_at"
     list_filter = LOGIN_EVENT_LIST_FILTER
     search_fields = LOGIN_EVENT_SEARCH_FIELDS
     readonly_fields = [
@@ -117,7 +117,7 @@ class LoginEventAdmin(EasyAuditModelAdmin):
         "get_username",
         "get_user",
         "remote_ip",
-        "datetime",
+        "created_at",
     ]
 
     def get_user(self, obj):
@@ -136,8 +136,8 @@ class LoginEventAdmin(EasyAuditModelAdmin):
 
 # Request events
 class RequestEventAdmin(EasyAuditModelAdmin):
-    list_display = ["datetime", "user_link", "method", "url", "remote_ip"]
-    date_hierarchy = "datetime"
+    list_display = ["created_at", "user_link", "method", "url", "remote_ip"]
+    date_hierarchy = "created_at"
     list_filter = REQUEST_EVENT_LIST_FILTER
     search_fields = REQUEST_EVENT_SEARCH_FIELDS
     readonly_fields = [
@@ -146,7 +146,7 @@ class RequestEventAdmin(EasyAuditModelAdmin):
         "query_string",
         "get_user",
         "remote_ip",
-        "datetime",
+        "created_at",
     ]
 
     def get_user(self, obj):
