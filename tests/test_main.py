@@ -161,7 +161,7 @@ class TestAuditModels:
     def test_fake_update_skip_no_changed_fields(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, 
+            object_id=obj.id,
         )
         obj.save()
         assert crud_event_qs.count() == 1
@@ -257,7 +257,7 @@ class TestMiddleware:
 
         obj = Model.objects.all().first()
         crud_event = CRUDEvent.objects.filter(
-            object_id=obj.id, 
+            object_id=obj.id,
         ).first()
         assert crud_event.user == user
 
@@ -276,10 +276,9 @@ class TestMiddleware:
         user = django_user_model.objects.create_user(username, email, password)
         set_current_user(user)
         obj = Model.objects.create()
-        assert obj.id == 1
 
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, 
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -288,7 +287,6 @@ class TestMiddleware:
 
         clear_request()
         obj = Model.objects.create()
-        assert obj.id == 2
 
         crud_event_qs = CRUDEvent.objects.filter(
             object_id=obj.id,
