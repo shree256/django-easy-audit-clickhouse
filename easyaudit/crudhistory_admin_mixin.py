@@ -2,7 +2,6 @@ from urllib.parse import urlencode
 
 from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Model
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import redirect

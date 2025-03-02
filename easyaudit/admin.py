@@ -2,7 +2,6 @@ import csv
 import datetime
 
 from django.contrib import admin
-from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.html import escape

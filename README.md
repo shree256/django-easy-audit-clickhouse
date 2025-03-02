@@ -90,7 +90,7 @@ Below are some of the settings you may want to use. These should be defined in y
   Used to remove filters when the corresponding list of data would be too long.
   Defaults are:
 
-  - ['event_type', 'content_type', 'user', 'datetime', ] for CRUDEventAdmin
+  - ['event_type', 'user', 'datetime', ] for CRUDEventAdmin
   - ['login_type', 'user', 'datetime', ] for LoginEventAdmin
   - ['method', 'user', 'datetime', ] for RequestEventAdmin
 
