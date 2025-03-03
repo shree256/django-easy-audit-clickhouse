@@ -3,7 +3,6 @@ import datetime
 
 from django.contrib import admin
 from django.http import HttpResponse
-from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -84,7 +83,7 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         else:
             escaped_obj_repr = escape(obj.object_repr)
             try:
-                html = f'<a href=""></a>'
+                html = '<a href=""></a>'
             except Exception:
                 html = escaped_obj_repr
         return mark_safe(html)  # noqa: S308
