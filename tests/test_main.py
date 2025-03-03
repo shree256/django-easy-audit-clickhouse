@@ -3,7 +3,6 @@ import logging
 
 import pytest
 from asgiref.sync import sync_to_async
-from django.contrib.contenttypes.models import ContentType
 from django.core import management
 from django.db import transaction
 from django.urls import reverse
@@ -85,7 +84,7 @@ class TestAuditModels:
     def test_create_model(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -99,7 +98,7 @@ class TestAuditModels:
         obj_fk.save()
 
         crud_event = CRUDEvent.objects.filter(
-            object_id=obj_fk.id, content_type=ContentType.objects.get_for_model(obj_fk)
+            object_id=obj_fk.id,
         ).first()
         data = json.loads(crud_event.object_json_repr)[0]
         assert str(data["fields"]["test_fk"]) == str(obj.id)
@@ -112,7 +111,6 @@ class TestAuditModels:
 
         crud_event = CRUDEvent.objects.filter(
             object_id=obj_m2m.id,
-            content_type=ContentType.objects.get_for_model(obj_m2m),
         ).first()
         data = json.loads(crud_event.object_json_repr)[0]
         assert [str(d) for d in data["fields"]["test_m2m"]] == [str(obj.id)]
@@ -126,7 +124,6 @@ class TestAuditModels:
 
         crud_event = CRUDEvent.objects.filter(
             object_id=obj_m2m.id,
-            content_type=ContentType.objects.get_for_model(obj_m2m),
         ).first()
         data = json.loads(crud_event.object_json_repr)[0]
         assert [str(d) for d in data["fields"]["test_m2m"]] == []
@@ -135,7 +132,7 @@ class TestAuditModels:
     def test_update_skip_no_changed_fields(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -149,7 +146,7 @@ class TestAuditModels:
     def test_update(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -164,7 +161,7 @@ class TestAuditModels:
     def test_fake_update_skip_no_changed_fields(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         obj.save()
         assert crud_event_qs.count() == 1
@@ -172,7 +169,7 @@ class TestAuditModels:
     def test_fake_update(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         obj.save()
         assert crud_event_qs.count() == 2
@@ -180,14 +177,14 @@ class TestAuditModels:
     def test_delete(self, model):
         obj = model.objects.create()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
         obj_id = obj.pk
         obj.delete()
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj_id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj_id,
         )
         assert crud_event_qs.count() == 2
 
@@ -201,14 +198,12 @@ class TestAuditModels:
 
         crud_event_qs = CRUDEvent.objects.filter(
             object_id=obj.id,
-            content_type=ContentType.objects.get_for_model(obj),
             event_type=CRUDEvent.CREATE,
         )
         assert crud_event_qs.count() == 1
 
         crud_event_qs = CRUDEvent.objects.filter(
             object_id=obj.id,
-            content_type=ContentType.objects.get_for_model(obj),
             event_type=CRUDEvent.DELETE,
         )
         assert crud_event_qs.count() == 1
@@ -262,7 +257,7 @@ class TestMiddleware:
 
         obj = Model.objects.all().first()
         crud_event = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         ).first()
         assert crud_event.user == user
 
@@ -273,7 +268,7 @@ class TestMiddleware:
 
         obj = Model.objects.all().first()
         crud_event = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         ).first()
         assert crud_event.user is None
 
@@ -281,10 +276,9 @@ class TestMiddleware:
         user = django_user_model.objects.create_user(username, email, password)
         set_current_user(user)
         obj = Model.objects.create()
-        assert obj.id == 1
 
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -293,10 +287,9 @@ class TestMiddleware:
 
         clear_request()
         obj = Model.objects.create()
-        assert obj.id == 2
 
         crud_event_qs = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         )
         assert crud_event_qs.count() == 1
 
@@ -311,7 +304,7 @@ class TestMiddleware:
 
         obj = Model.objects.first()
         crud_event = CRUDEvent.objects.filter(
-            object_id=obj.id, content_type=ContentType.objects.get_for_model(obj)
+            object_id=obj.id,
         ).first()
         assert crud_event.user == user
 

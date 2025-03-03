@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Model(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, unique=True, editable=False, default=uuid.uuid4)
     name = models.CharField(max_length=50, default="test data")
 
 

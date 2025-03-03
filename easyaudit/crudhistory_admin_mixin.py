@@ -2,7 +2,6 @@ from urllib.parse import urlencode
 
 from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Model
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import redirect
@@ -68,9 +67,7 @@ class CRUDHistoryAdminMixin(BaseProcessActionsAdminMixin, admin.ModelAdmin):
         base_history_url = reverse(
             "admin:easyaudit_crudevent_changelist",
         )
-        app_label, model_name = self._get_path_info()
-        content_type = ContentType.objects.get_by_natural_key(app_label, model_name)
-        params = {"content_type__id": content_type.id, "object_id": obj.id}
+        params = {"object_id": obj.id}
         params = urlencode(params)
         history_url = f"{base_history_url}?{params}"
 

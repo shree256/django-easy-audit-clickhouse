@@ -5,7 +5,6 @@ import logging
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.contenttypes.models import ContentType
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.utils import timezone
@@ -40,8 +39,7 @@ def log_event(event_type, instance, object_id, object_json_repr, **kwargs):
     with transaction.atomic(using=DATABASE_ALIAS):
         audit_logger.crud(
             {
-                "content_type_id": ContentType.objects.get_for_model(instance).id,
-                "datetime": timezone.now(),
+                "created_at": timezone.now(),
                 "event_type": event_type,
                 "object_id": object_id,
                 "object_json_repr": object_json_repr or "",
