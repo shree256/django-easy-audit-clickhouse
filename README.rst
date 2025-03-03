@@ -6,8 +6,8 @@ Build a django easy audit log with clickhouse integration on top of django-easy-
 
 Quick start
 -----------
-1. Prerequisites:
-    - Django==4.2
+1. Prerequisites::
+    - django==4.2
     - clickhouse-connect>=0.8.15
     - celery>=5.4.0
     - djangorestframework>=3.15

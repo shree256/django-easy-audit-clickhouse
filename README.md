@@ -10,10 +10,12 @@ This app allows you to keep track of every action taken by your users.
 ## Quickstart
 
 1. Prerequisites:
-    - Django==4.2
-    - clickhouse-connect>=0.8.15
-    - celery>=5.4.0
-    - djangorestframework>=3.15
+   ```python
+   django==4.2
+   clickhouse-connect>=0.8.15
+   celery>=5.4.0
+   djangorestframework>=3.15
+   ```
 
 1. Install Django Easy Audit by running `pip install django-easy-audit-clickhouse`.
 
