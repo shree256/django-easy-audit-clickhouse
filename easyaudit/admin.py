@@ -7,17 +7,14 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from .admin_helpers import EasyAuditModelAdmin, prettify_json
-from .models import CRUDEvent, LoginEvent, RequestEvent
+from .models import CRUDEvent, LoginEvent
 from .settings import (
     ADMIN_SHOW_AUTH_EVENTS,
     ADMIN_SHOW_MODEL_EVENTS,
-    ADMIN_SHOW_REQUEST_EVENTS,
     CRUD_EVENT_LIST_FILTER,
     CRUD_EVENT_SEARCH_FIELDS,
     LOGIN_EVENT_LIST_FILTER,
     LOGIN_EVENT_SEARCH_FIELDS,
-    REQUEST_EVENT_LIST_FILTER,
-    REQUEST_EVENT_SEARCH_FIELDS,
 )
 
 
@@ -133,32 +130,7 @@ class LoginEventAdmin(EasyAuditModelAdmin):
     actions = [export_to_csv]
 
 
-# Request events
-class RequestEventAdmin(EasyAuditModelAdmin):
-    list_display = ["created_at", "user_link", "method", "url", "remote_ip"]
-    date_hierarchy = "created_at"
-    list_filter = REQUEST_EVENT_LIST_FILTER
-    search_fields = REQUEST_EVENT_SEARCH_FIELDS
-    readonly_fields = [
-        "url",
-        "method",
-        "query_string",
-        "get_user",
-        "remote_ip",
-        "created_at",
-    ]
-
-    def get_user(self, obj):
-        return self.users_by_id.get(obj.user_id)
-
-    get_user.short_description = "User"
-
-    actions = [export_to_csv]
-
-
 if ADMIN_SHOW_MODEL_EVENTS:
     admin.site.register(CRUDEvent, CRUDEventAdmin)
 if ADMIN_SHOW_AUTH_EVENTS:
     admin.site.register(LoginEvent, LoginEventAdmin)
-if ADMIN_SHOW_REQUEST_EVENTS:
-    admin.site.register(RequestEvent, RequestEventAdmin)

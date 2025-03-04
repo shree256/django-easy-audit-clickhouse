@@ -104,30 +104,3 @@ class LoginEvent(models.Model):
         verbose_name = _("login event")
         verbose_name_plural = _("login events")
         ordering = ["-created_at"]
-
-
-class RequestEvent(models.Model):
-    url = models.CharField(null=False, db_index=True, max_length=254, verbose_name=_("URL"))
-    method = models.CharField(
-        max_length=20, null=False, db_index=True, verbose_name=_("Method")
-    )
-    query_string = models.TextField(default="", verbose_name=_("Query string"))
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        db_constraint=False,
-        verbose_name=_("User"),
-    )
-    remote_ip = models.CharField(
-        max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, db_index=True, verbose_name=_("Date time")
-    )
-
-    class Meta:
-        verbose_name = _("request event")
-        verbose_name_plural = _("request events")
-        ordering = ["-created_at"]

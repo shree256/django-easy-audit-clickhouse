@@ -8,7 +8,7 @@ from django.contrib.sessions.models import Session
 from django.db.migrations import Migration
 from django.db.migrations.recorder import MigrationRecorder
 
-from easyaudit.models import CRUDEvent, LoginEvent, RequestEvent
+from easyaudit.models import CRUDEvent, LoginEvent
 
 
 def get_model_list(class_list):
@@ -45,7 +45,6 @@ LOGGING_BACKEND = getattr(
 UNREGISTERED_CLASSES = [
     CRUDEvent,
     LoginEvent,
-    RequestEvent,
     Migration,
     Session,
     Permission,
