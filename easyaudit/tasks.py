@@ -1,7 +1,7 @@
 import logging
-import clickhouse_connect
-
 from datetime import timedelta
+
+import clickhouse_connect
 from django.utils.timezone import now
 
 from .models import CRUDEvent, LoginEvent

@@ -1,4 +1,5 @@
 import json
+
 import pytest
 from django.core import management
 from django.db import transaction
