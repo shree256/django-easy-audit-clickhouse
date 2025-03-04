@@ -35,13 +35,16 @@ Quick start
     CLICKHOUSE_PASSWORD = 'password'
     CLICKHOUSE_DATABASE = 'default'
 
-6. Add task to celery to sync data from django to clickhouse::
+6. Create shared task of `send_logs_to_clickhouse` to sync data from django to clickhouse::
 
-    from easyaudit.tasks import send_logs_to_clickhouse
+    @shared_task
+    def send_audit_logs_to_clickhouse():
+        from easyaudit.tasks import send_logs_to_clickhouse
+        send_logs_to_clickhouse()
 
     app.conf.beat_schedule = {
         "send-logs-to-clickhouse": {
-            "task": "easyaudit.tasks.send_logs_to_clickhouse",
+            "task": "path.to.send_logs_to_clickhouse",
             "schedule": crontab(hour=9, minute=10),  # 12:00 AM PST
         },
     }

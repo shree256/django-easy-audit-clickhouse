@@ -50,18 +50,23 @@ This app allows you to keep track of every action taken by your users.
    CLICKHOUSE_DATABASE = 'default'
    ```
 
-6. Add task to celery to sync data from django to clickhouse:
+6. Create shared task of `send_logs_to_clickhouse` to sync data from django to clickhouse:
 
    ```python
-   from easyaudit.tasks import send_logs_to_clickhouse
+   @shared_task
+   def send_audit_logs_to_clickhouse():
+      from easyaudit.tasks import send_logs_to_clickhouse
+
+      send_logs_to_clickhouse()
 
    app.conf.beat_schedule = {
         "send-logs-to-clickhouse": {
-            "task": "easyaudit.tasks.send_logs_to_clickhouse",
+            "task": "path.to.send_logs_to_clickhouse",
             "schedule": crontab(hour=9, minute=10),  # 12:00 AM PST
         },
     }
    ```
+
 
 
 ## Settings
@@ -121,7 +126,6 @@ Below are some of the settings you may want to use. These should be defined in y
 
   - ['event_type', 'user', 'created_at', ] for CRUDEventAdmin
   - ['login_type', 'user', 'created_at', ] for LoginEventAdmin
-  - ['method', 'user', 'created_at', ] for RequestEventAdmin
 
 - `DJANGO_EASY_AUDIT_DATABASE_ALIAS`
 
@@ -198,8 +202,7 @@ a registry. This applies to every model of every app in your project.
 When any of these events takes place, Django Easy Audit will log it in the model `CRUDEvent`.
 You can query this information in the Django Admin app.
 
-Besides logging CRUD events, Django Easy Audit will log all authentication events (such as when a user logs in, out, or fails to log in) and all the URLs requested in the project. This information is stored in models `LoginEvent` and `RequestEvent`.
-
+Besides logging CRUD events, Django Easy Audit will log all authentication events (such as when a user logs in, out, or fails to log in) and all the URLs requested in the project. This information is stored in models `LoginEvent`
 ## Why you should use it
 
 There are many Django auditing apps out there, but most them require you to change very important
