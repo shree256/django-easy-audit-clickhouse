@@ -30,7 +30,9 @@ class CRUDEvent(models.Model):
         (M2M_CLEAR_REV, _("Reverse Many-to-Many Clear")),
     )
 
-    event_type = models.SmallIntegerField(choices=TYPES, verbose_name=_("Event type"))
+    event_type = models.SmallIntegerField(
+        choices=TYPES, verbose_name=_("Event type")
+    )
     object_id = models.CharField(max_length=255, verbose_name=_("Object ID"))
     object_repr = models.TextField(
         default="", blank=True, verbose_name=_("Object representation")
@@ -56,7 +58,9 @@ class CRUDEvent(models.Model):
         help_text=_("String version of the user pk"),
         verbose_name=_("User PK as string"),
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Date time")
+    )
 
     class Meta:
         verbose_name = _("CRUD event")
@@ -83,7 +87,9 @@ class LoginEvent(models.Model):
         (LOGOUT, _("Logout")),
         (FAILED, _("Failed login")),
     )
-    login_type = models.SmallIntegerField(choices=TYPES, verbose_name=_("Event type"))
+    login_type = models.SmallIntegerField(
+        choices=TYPES, verbose_name=_("Event type")
+    )
     username = models.CharField(
         max_length=255, default="", blank=True, verbose_name=_("Username")
     )
@@ -98,9 +104,76 @@ class LoginEvent(models.Model):
     remote_ip = models.CharField(
         max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Date time")
+    )
 
     class Meta:
         verbose_name = _("login event")
         verbose_name_plural = _("login events")
+        ordering = ["-created_at"]
+
+
+class ExternalServiceLog(models.Model):
+    """
+    protocol -> HTTP
+    request_repr -> {
+        endpoint: "/api/v1/users/",
+        method: GET/POST/PUT/DELETE,
+        headers: {
+            "Authorization": "Bearer <token>",
+        }
+        body: {
+            "username": "testuser",
+        }
+    }
+    response_repr -> {
+        status_code: 200,
+        body: {
+            "username": "testuser",
+        }
+    }
+
+    protocol -> SFTP
+    request_repr -> {
+        host: "sftp.example.com",
+        operation: "upload"/"download"/"delete",
+        remote_path: "/home/testuser/testfile.txt",
+        file_name: "testfile.txt",
+        extension: "txt",
+        file_size: 1024,
+    }
+    response_repr -> {
+        success: true
+    }
+    """
+
+    service = models.CharField(max_length=255, verbose_name=_("Service"))
+    protocol = models.CharField(max_length=255, verbose_name=_("Protocol"))
+    request_repr = models.TextField(
+        default="", blank=True, verbose_name=_("Request representation")
+    )
+    response_repr = models.TextField(
+        default="", blank=True, verbose_name=_("Response representation")
+    )
+    error_message = models.TextField(
+        default="", blank=True, verbose_name=_("Error message")
+    )
+    execution_time = models.FloatField(
+        help_text="Time taken in seconds", null=True
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Date time")
+    )
+    user_pk_as_string = models.CharField(
+        max_length=255,
+        default="",
+        blank=True,
+        help_text=_("String version of the user pk"),
+        verbose_name=_("User PK as string"),
+    )
+
+    class Meta:
+        verbose_name = _("external client event")
+        verbose_name_plural = _("external client events")
         ordering = ["-created_at"]
