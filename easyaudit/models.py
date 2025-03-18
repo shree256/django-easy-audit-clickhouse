@@ -116,7 +116,7 @@ class LoginEvent(models.Model):
 
 class ExternalServiceLog(models.Model):
     """
-    protocol -> HTTP
+    Protocol -> HTTP
     request_repr -> {
         endpoint: "/api/v1/users/",
         method: GET/POST/PUT/DELETE,
@@ -134,21 +134,19 @@ class ExternalServiceLog(models.Model):
         }
     }
 
-    protocol -> SFTP
+    Protocol -> SFTP
     request_repr -> {
         host: "sftp.example.com",
         operation: "upload"/"download"/"delete",
-        remote_path: "/home/testuser/testfile.txt",
+        remote_path: "/home/testuser",
         file_name: "testfile.txt",
-        extension: "txt",
-        file_size: 1024,
     }
     response_repr -> {
         success: true
     }
     """
 
-    service = models.CharField(max_length=255, verbose_name=_("Service"))
+    service_name = models.CharField(max_length=255, verbose_name=_("Service"))
     protocol = models.CharField(max_length=255, verbose_name=_("Protocol"))
     request_repr = models.TextField(
         default="", blank=True, verbose_name=_("Request representation")
