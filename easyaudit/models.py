@@ -30,9 +30,7 @@ class CRUDEvent(models.Model):
         (M2M_CLEAR_REV, _("Reverse Many-to-Many Clear")),
     )
 
-    event_type = models.SmallIntegerField(
-        choices=TYPES, verbose_name=_("Event type")
-    )
+    event_type = models.SmallIntegerField(choices=TYPES, verbose_name=_("Event type"))
     object_id = models.CharField(max_length=255, verbose_name=_("Object ID"))
     object_repr = models.TextField(
         default="", blank=True, verbose_name=_("Object representation")
@@ -58,9 +56,7 @@ class CRUDEvent(models.Model):
         help_text=_("String version of the user pk"),
         verbose_name=_("User PK as string"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Date time")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
 
     class Meta:
         verbose_name = _("CRUD event")
@@ -87,9 +83,7 @@ class LoginEvent(models.Model):
         (LOGOUT, _("Logout")),
         (FAILED, _("Failed login")),
     )
-    login_type = models.SmallIntegerField(
-        choices=TYPES, verbose_name=_("Event type")
-    )
+    login_type = models.SmallIntegerField(choices=TYPES, verbose_name=_("Event type"))
     username = models.CharField(
         max_length=255, default="", blank=True, verbose_name=_("Username")
     )
@@ -104,9 +98,7 @@ class LoginEvent(models.Model):
     remote_ip = models.CharField(
         max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Date time")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
 
     class Meta:
         verbose_name = _("login event")
@@ -157,13 +149,9 @@ class ExternalServiceLog(models.Model):
     error_message = models.TextField(
         default="", blank=True, verbose_name=_("Error message")
     )
-    execution_time = models.FloatField(
-        help_text="Time taken in seconds", null=True
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Date time")
-    )
-    user_pk_as_string = models.CharField(
+    execution_time = models.FloatField(help_text="Time taken in seconds", null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Date time"))
+    user_id = models.CharField(
         max_length=255,
         default="",
         blank=True,
