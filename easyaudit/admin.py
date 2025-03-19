@@ -7,7 +7,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from .admin_helpers import EasyAuditModelAdmin, prettify_json
-from .models import CRUDEvent, LoginEvent
+from .models import CRUDEvent, LoginEvent, ExternalServiceLog
 from .settings import (
     ADMIN_SHOW_AUTH_EVENTS,
     ADMIN_SHOW_MODEL_EVENTS,
@@ -23,7 +23,9 @@ def export_to_csv(modeladmin, request, queryset):
     """Export event audits to csv."""
     opts = modeladmin.model._meta
     response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = f"attachment;filename={opts.verbose_name}.csv"
+    response["Content-Disposition"] = (
+        f"attachment;filename={opts.verbose_name}.csv"
+    )
     writer = csv.writer(response)
     fields = [
         field
@@ -134,3 +136,15 @@ if ADMIN_SHOW_MODEL_EVENTS:
     admin.site.register(CRUDEvent, CRUDEventAdmin)
 if ADMIN_SHOW_AUTH_EVENTS:
     admin.site.register(LoginEvent, LoginEventAdmin)
+
+
+class ExternalServiceLogAdmin(EasyAuditModelAdmin):
+    list_display = [
+        "service_name",
+        "protocol",
+        "created_at",
+    ]
+    date_hierarchy = "created_at"
+
+
+admin.site.register(ExternalServiceLog, ExternalServiceLogAdmin)
