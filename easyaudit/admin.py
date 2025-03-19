@@ -23,9 +23,7 @@ def export_to_csv(modeladmin, request, queryset):
     """Export event audits to csv."""
     opts = modeladmin.model._meta
     response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = (
-        f"attachment;filename={opts.verbose_name}.csv"
-    )
+    response["Content-Disposition"] = f"attachment;filename={opts.verbose_name}.csv"
     writer = csv.writer(response)
     fields = [
         field
@@ -53,7 +51,6 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "get_event_type_display",
         "object_id",
         "object_repr_link",
-        "user_link",
         "created_at",
     ]
     date_hierarchy = "created_at"
@@ -64,16 +61,11 @@ class CRUDEventAdmin(EasyAuditModelAdmin):
         "object_id",
         "object_repr",
         "object_json_repr_prettified",
-        "get_user",
-        "user_pk_as_string",
+        "user_id",
         "created_at",
         "changed_fields_prettified",
     ]
     exclude = ["object_json_repr", "changed_fields"]
-
-    @admin.display(description="User")
-    def get_user(self, obj):
-        return self.users_by_id.get(obj.user_id)
 
     @admin.display(description="object repr")
     def object_repr_link(self, obj):

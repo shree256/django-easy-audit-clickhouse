@@ -21,7 +21,6 @@ audit_logger = import_string(LOGGING_BACKEND)()
 
 def get_current_user_details():
     user_id = ""
-    user_pk_as_string = ""
 
     with contextlib.suppress(Exception):
         user = get_current_user()
@@ -29,13 +28,13 @@ def get_current_user_details():
             if getattr(settings, "DJANGO_EASY_AUDIT_CHECK_IF_REQUEST_USER_EXISTS", True):
                 # validate that the user still exists
                 user = get_user_model().objects.get(pk=user.pk)
-            user_id, user_pk_as_string = user.id, str(user.pk)
+            user_id = str(user.pk)
 
-    return user_id, user_pk_as_string
+    return user_id
 
 
 def log_event(event_type, instance, object_id, object_json_repr, **kwargs):
-    user_id, user_pk_as_string = get_current_user_details()
+    user_id = get_current_user_details()
     with transaction.atomic(using=DATABASE_ALIAS):
         audit_logger.crud(
             {
@@ -45,7 +44,6 @@ def log_event(event_type, instance, object_id, object_json_repr, **kwargs):
                 "object_json_repr": object_json_repr or "",
                 "object_repr": str(instance),
                 "user_id": user_id,
-                "user_pk_as_string": user_pk_as_string,
                 **kwargs,
             }
         )

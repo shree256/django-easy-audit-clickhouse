@@ -8,7 +8,7 @@ from django.contrib.sessions.models import Session
 from django.db.migrations import Migration
 from django.db.migrations.recorder import MigrationRecorder
 
-from easyaudit.models import CRUDEvent, LoginEvent
+from easyaudit.models import CRUDEvent, LoginEvent, ExternalServiceLog
 
 
 def get_model_list(class_list):
@@ -55,6 +55,7 @@ LOGGING_BACKEND = getattr(
 UNREGISTERED_CLASSES = [
     CRUDEvent,
     LoginEvent,
+    ExternalServiceLog,
     Migration,
     Session,
     Permission,
@@ -173,7 +174,7 @@ CRUD_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_CRUD_EVENT_LIST_FILTER",
     [
         "event_type",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -182,7 +183,7 @@ LOGIN_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_LOGIN_EVENT_LIST_FILTER",
     [
         "login_type",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -191,7 +192,7 @@ REQUEST_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_REQUEST_EVENT_LIST_FILTER",
     [
         "method",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -218,7 +219,7 @@ REQUEST_EVENT_SEARCH_FIELDS = getattr(
     "DJANGO_EASY_AUDIT_REQUEST_EVENT_SEARCH_FIELDS",
     [
         "=remote_ip",
-        "user__username",
+        "user_id",
         "url",
         "query_string",
     ],
