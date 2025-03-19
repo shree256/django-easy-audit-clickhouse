@@ -45,7 +45,7 @@ class ServiceHTTPClient(Session):
         execution_time = time.time() - start_time
 
         payload = {
-            "service": self.service_name,
+            "service_name": self.service_name,
             "protocol": PROTOCOLS[0],
             "request_repr": str(request_repr),
             "execution_time": execution_time,
@@ -79,7 +79,7 @@ class ServiceSFTPClient:
         self.service_name = service_name
         self.channel = None
         self.log_payload = {
-            "service": service_name,
+            "service_name": service_name,
             "protocol": PROTOCOLS[1],
             "request_repr": {
                 "host": host,
@@ -165,7 +165,7 @@ class ServiceSFTPClient:
 
         execution_time = time.time() - start_time
 
-        self.log_payload["response_repr"] = result
+        self.log_payload["response_repr"] = {"message": result}
         self.log_payload["execution_time"] = execution_time
 
         self.__create_log()
