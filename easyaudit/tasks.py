@@ -11,12 +11,16 @@ from .settings import (
     CLICKHOUSE_USER,
     CLICKHOUSE_PASSWORD,
     CLICKHOUSE_DATABASE,
+    SEND_LOGS_TO_CLICKHOUSE,
 )
 
 logger = logging.getLogger(__name__)
 
 
 def send_logs_to_clickhouse():
+    if not SEND_LOGS_TO_CLICKHOUSE:
+        return
+
     logger.info("Clickhouse: Initiating data transfer...")
 
     # Get the timestamp for 24 hours ago

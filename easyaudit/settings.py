@@ -24,18 +24,28 @@ def get_model_list(class_list):
 
 
 # Should Django Easy Audit log model/auth/request events?
-WATCH_AUTH_EVENTS = getattr(settings, "DJANGO_EASY_AUDIT_WATCH_AUTH_EVENTS", True)
-WATCH_MODEL_EVENTS = getattr(settings, "DJANGO_EASY_AUDIT_WATCH_MODEL_EVENTS", True)
-WATCH_REQUEST_EVENTS = getattr(settings, "DJANGO_EASY_AUDIT_WATCH_REQUEST_EVENTS", True)
+WATCH_AUTH_EVENTS = getattr(
+    settings, "DJANGO_EASY_AUDIT_WATCH_AUTH_EVENTS", True
+)
+WATCH_MODEL_EVENTS = getattr(
+    settings, "DJANGO_EASY_AUDIT_WATCH_MODEL_EVENTS", True
+)
+WATCH_REQUEST_EVENTS = getattr(
+    settings, "DJANGO_EASY_AUDIT_WATCH_REQUEST_EVENTS", True
+)
 REMOTE_ADDR_HEADER = getattr(
     settings, "DJANGO_EASY_AUDIT_REMOTE_ADDR_HEADER", "REMOTE_ADDR"
 )
 
-USER_DB_CONSTRAINT = bool(getattr(settings, "DJANGO_EASY_AUDIT_USER_DB_CONSTRAINT", True))
+USER_DB_CONSTRAINT = bool(
+    getattr(settings, "DJANGO_EASY_AUDIT_USER_DB_CONSTRAINT", True)
+)
 
 # logging backend settings
 LOGGING_BACKEND = getattr(
-    settings, "DJANGO_EASY_AUDIT_LOGGING_BACKEND", "easyaudit.backends.ModelBackend"
+    settings,
+    "DJANGO_EASY_AUDIT_LOGGING_BACKEND",
+    "easyaudit.backends.ModelBackend",
 )
 
 # Models which Django Easy Audit will not log.
@@ -58,7 +68,9 @@ if apps.is_installed("django.contrib.admin"):
     UNREGISTERED_CLASSES += [LogEntry]
 
 UNREGISTERED_CLASSES = getattr(
-    settings, "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_DEFAULT", UNREGISTERED_CLASSES
+    settings,
+    "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_DEFAULT",
+    UNREGISTERED_CLASSES,
 )
 UNREGISTERED_CLASSES.extend(
     getattr(settings, "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_EXTRA", [])
@@ -70,7 +82,9 @@ get_model_list(UNREGISTERED_CLASSES)
 # If the following setting is defined in the project,
 # only the listed models will be audited, and every other
 # model will be excluded.
-REGISTERED_CLASSES = getattr(settings, "DJANGO_EASY_AUDIT_REGISTERED_CLASSES", [])
+REGISTERED_CLASSES = getattr(
+    settings, "DJANGO_EASY_AUDIT_REGISTERED_CLASSES", []
+)
 get_model_list(REGISTERED_CLASSES)
 
 
@@ -83,7 +97,9 @@ UNREGISTERED_URLS = [r"^/admin/", r"^/static/", r"^/favicon.ico$"]
 UNREGISTERED_URLS = getattr(
     settings, "DJANGO_EASY_AUDIT_UNREGISTERED_URLS_DEFAULT", UNREGISTERED_URLS
 )
-UNREGISTERED_URLS.extend(getattr(settings, "DJANGO_EASY_AUDIT_UNREGISTERED_URLS_EXTRA", []))
+UNREGISTERED_URLS.extend(
+    getattr(settings, "DJANGO_EASY_AUDIT_UNREGISTERED_URLS_EXTRA", [])
+)
 
 
 # URLs which Django Easy Audit WILL log.
@@ -98,7 +114,9 @@ REGISTERED_URLS = getattr(settings, "DJANGO_EASY_AUDIT_REGISTERED_URLS", [])
 ADMIN_SHOW_MODEL_EVENTS = getattr(
     settings, "DJANGO_EASY_AUDIT_ADMIN_SHOW_MODEL_EVENTS", True
 )
-ADMIN_SHOW_AUTH_EVENTS = getattr(settings, "DJANGO_EASY_AUDIT_ADMIN_SHOW_AUTH_EVENTS", True)
+ADMIN_SHOW_AUTH_EVENTS = getattr(
+    settings, "DJANGO_EASY_AUDIT_ADMIN_SHOW_AUTH_EVENTS", True
+)
 ADMIN_SHOW_REQUEST_EVENTS = getattr(
     settings, "DJANGO_EASY_AUDIT_ADMIN_SHOW_REQUEST_EVENTS", True
 )
@@ -107,10 +125,14 @@ ADMIN_SHOW_REQUEST_EVENTS = getattr(
 # project defined callbacks
 CRUD_DIFFERENCE_CALLBACKS = []
 CRUD_DIFFERENCE_CALLBACKS = getattr(
-    settings, "DJANGO_EASY_AUDIT_CRUD_DIFFERENCE_CALLBACKS", CRUD_DIFFERENCE_CALLBACKS
+    settings,
+    "DJANGO_EASY_AUDIT_CRUD_DIFFERENCE_CALLBACKS",
+    CRUD_DIFFERENCE_CALLBACKS,
 )
 DATABASE_ALIAS = getattr(
-    settings, "DJANGO_EASY_AUDIT_DATABASE_ALIAS", django.db.utils.DEFAULT_DB_ALIAS
+    settings,
+    "DJANGO_EASY_AUDIT_DATABASE_ALIAS",
+    django.db.utils.DEFAULT_DB_ALIAS,
 )
 # The callbacks could come in as an iterable of strings, where each string is the
 # package.module.function
@@ -209,3 +231,4 @@ CLICKHOUSE_HOST = getattr(settings, "CLICKHOUSE_HOST", "localhost")
 CLICKHOUSE_USER = getattr(settings, "CLICKHOUSE_USER", "user")
 CLICKHOUSE_PASSWORD = getattr(settings, "CLICKHOUSE_PASSWORD", "password")
 CLICKHOUSE_DATABASE = getattr(settings, "CLICKHOUSE_DATABASE", "database")
+SEND_LOGS_TO_CLICKHOUSE = getattr(settings, "SEND_LOGS_TO_CLICKHOUSE", False)
