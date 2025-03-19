@@ -41,15 +41,7 @@ class CRUDEvent(models.Model):
     changed_fields = models.TextField(
         default="", blank=True, verbose_name=_("Changed fields")
     )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        db_constraint=False,
-        verbose_name=_("User"),
-    )
-    user_pk_as_string = models.CharField(
+    user_id = models.CharField(
         max_length=255,
         default="",
         blank=True,
@@ -87,13 +79,12 @@ class LoginEvent(models.Model):
     username = models.CharField(
         max_length=255, default="", blank=True, verbose_name=_("Username")
     )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
+    user_id = models.CharField(
+        max_length=255,
+        default="",
         blank=True,
-        on_delete=models.SET_NULL,
-        db_constraint=False,
-        verbose_name=_("User"),
+        help_text=_("String version of the user pk"),
+        verbose_name=_("User PK as string"),
     )
     remote_ip = models.CharField(
         max_length=50, default="", db_index=True, verbose_name=_("Remote IP")
