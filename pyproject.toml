@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "easy-logging-clickhouse"
+name = "easy-audit-clickhouse"
 version = "0.1.0"
 description = "Log library with ClickHouse integration"
 license = "GPL3"
 readme = "README.md"
-homepage = "https://github.com/houseworksinc/easy-logging-clickhouse"
-repository = "https://github.com/houseworksinc/easy-logging-clickhouse"
-documentation = "https://github.com/houseworksinc/easy-logging-clickhouse"
+homepage = "https://github.com/houseworksinc/easy-audit-clickhouse"
+repository = "https://github.com/houseworksinc/easy-audit-clickhouse"
+documentation = "https://github.com/houseworksinc/easy-audit-clickhouse"
 classifiers = [
     "Environment :: Plugins",
     "Framework :: Django :: 4.2",
