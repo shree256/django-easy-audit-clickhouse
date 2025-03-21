@@ -130,9 +130,7 @@ class ServiceSFTPClient:
                 return False, f"Folder({path_to_folder}) not found."
         return False, f"Connection not established"
 
-    def upload(
-        self, path_to_folder, filename, file_content
-    ) -> Tuple[bool, Optional[str]]:
+    def upload(self, path_to_folder, filename, file_content) -> Tuple[bool, Optional[str]]:
         start_time = time.time()
         result = ""
 
@@ -146,12 +144,10 @@ class ServiceSFTPClient:
             if not error:
                 try:
                     with self.channel.open(
-                        f"{path_to_folder}/{filename}", "wb"
+                        f"{path_to_folder}{filename}", "wb"
                     ) as remote_file:
                         remote_file.write(file_content)
-                    result = (
-                        f"{filename} uploaded successfully to {path_to_folder}"
-                    )
+                    result = f"{filename} uploaded successfully to {path_to_folder}"
                     logger.info(f"{result}")
                 except Exception as e:
                     self.log_payload["error_message"] = (
