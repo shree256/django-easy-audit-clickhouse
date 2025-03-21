@@ -52,14 +52,15 @@ def send_logs_to_clickhouse():
     ]
 
     logger.info(
-        "Clickhouse: Collected %s crud logs and %s login logs",
+        "Clickhouse: Collected (%s crud logs, %s login logs, %s external service logs)",
         len(crud_row_matrix),
         len(login_row_matrix),
+        len(external_service_row_matrix),
     )
 
     insert_data = {
         "crud_logs": {
-            "table": f"{CLICKHOUSE_DATABASE}.audit_crudevent",
+            "table": f"{CLICKHOUSE_DATABASE}.crud_event",
             "data": crud_row_matrix,
             "column_names": [
                 "event_type",
@@ -73,7 +74,7 @@ def send_logs_to_clickhouse():
             "object": crud_logs,
         },
         "login_logs": {
-            "table": f"{CLICKHOUSE_DATABASE}.audit_loginevent",
+            "table": f"{CLICKHOUSE_DATABASE}.login_event",
             "data": login_row_matrix,
             "column_names": [
                 "login_type",
@@ -85,7 +86,7 @@ def send_logs_to_clickhouse():
             "object": login_logs,
         },
         "external_service_logs": {
-            "table": f"{CLICKHOUSE_DATABASE}.externalservicelog",
+            "table": f"{CLICKHOUSE_DATABASE}.external_service",
             "data": external_service_row_matrix,
             "column_names": [
                 "service_name",
