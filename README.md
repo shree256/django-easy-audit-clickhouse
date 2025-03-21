@@ -1,9 +1,9 @@
-# django-easy-audit-clickhouse
+# easy-logging-clickhouse
 
 [![pypi](https://img.shields.io/pypi/v/django-easy-audit.svg)](https://pypi.org/project/django-easy-audit/)
 ![PyPI - Django Version](https://img.shields.io/pypi/frameworkversions/django/django-easy-audit)
 
-Yet another Django audit log app, hopefully the easiest one.
+Logging implementation with clickhouse integration on top of django-easy-audit==1.3.7.
 
 This app allows you to keep track of every action taken by your users.
 
@@ -17,9 +17,7 @@ This app allows you to keep track of every action taken by your users.
    djangorestframework>=3.15
    ```
 
-1. Install Django Easy Audit by running `pip install django-easy-audit-clickhouse`.
-
-   _Alternatively, you can download the [latest release](https://github.com/houseworksinc/django-easy-audit-clickhouse) from GitHub, unzip it, and place the folder 'easyaudit' in the root of your project._
+1. Install by running `pip install easy-logging-clickhouse`.
 
 2. Add 'easyaudit' to your `INSTALLED_APPS` like this:
 
@@ -67,7 +65,7 @@ This app allows you to keep track of every action taken by your users.
     }
    ```
 
-
+   - Add `SEND_LOGS_TO_CLICKHOUSE` to settings with True/False for enable/disable data push to clickhouse
 
 ## Settings
 
@@ -94,8 +92,6 @@ Below are some of the settings you may want to use. These should be defined in y
   A list of URLs which will be ignored by Django Easy Audit.
   List items are expected to be regular expressions that
   will be matched against the URL path.
-  [Check our wiki](https://github.com/soynatan/django-easy-audit/wiki/Settings#request-auditing)
-  for more details on how to use it.
 
 - `DJANGO_EASY_AUDIT_CRUD_DIFFERENCE_CALLBACKS`
 
@@ -193,35 +189,3 @@ Below are some of the settings you may want to use. These should be defined in y
             return crud_info
   ```
 
-## What does it do
-
-Django Easy Audit uses [Django signals](https://docs.djangoproject.com/en/dev/topics/signals/)
-to listen to the events happening in your project, such as when a user creates, updates or deletes
-a registry. This applies to every model of every app in your project.
-
-When any of these events takes place, Django Easy Audit will log it in the model `CRUDEvent`.
-You can query this information in the Django Admin app.
-
-Besides logging CRUD events, Django Easy Audit will log all authentication events (such as when a user logs in, out, or fails to log in) and all the URLs requested in the project. This information is stored in models `LoginEvent`
-## Why you should use it
-
-There are many Django auditing apps out there, but most them require you to change very important
-parts of your project's code. For example, they require you to add fields to your models, or make
-them inherit from a certain class. Some of them create a mirror for each of your models, which means
-duplicate migrations.
-
-It is not that they don't work or that they are not great apps. But in case you need something
-easier to set up, and you don't want your code to depend so much on a third-party app, Django Easy Audit
-may be your best choice.
-
-The good thing about this app is that it doesn't get in the way. It is [easy and quick to install](https://github.com/soynatan/django-easy-audit/wiki/Installation), and it
-begins logging everything right away, without you having to inject code anywhere in your project.
-
-## Contributing
-
-Interested in contributing to `django-easy-audit`? Please read our [Contribution guide](CONTRIBUTING.md).
-
-## Contact
-
-Find me on Twitter at [@soynatan](https://twitter.com/soynatan),
-or send me an email to [natancalzolari@gmail.com](mailto:natancalzolari@gmail.com).

@@ -1,8 +1,8 @@
-============================
-django-easy-audit-clickhouse
-============================
+=======================
+easy-logging-clickhouse
+=======================
 
-Build a django easy audit log with clickhouse integration on top of django-easy-audit==1.3.7.
+Logging implementation with clickhouse integration on top of django-easy-audit==1.3.7.
 
 Quick start
 -----------
@@ -48,3 +48,5 @@ Quick start
             "schedule": crontab(hour=9, minute=10),  # 12:00 AM PST
         },
     }
+
+7. Add `SEND_LOGS_TO_CLICKHOUSE` to settings with True/False for enable/disable data push to clickhouse.
