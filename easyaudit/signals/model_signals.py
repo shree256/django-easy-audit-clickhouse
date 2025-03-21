@@ -111,7 +111,13 @@ def pre_save(sender, instance, raw, using, update_fields, **kwargs):
 
             # callbacks
             create_crud_event = call_callbacks(
-                instance, object_json_repr, created, raw, using, update_fields, **kwargs
+                instance,
+                object_json_repr,
+                created,
+                raw,
+                using,
+                update_fields,
+                **kwargs,
             )
 
             # Create crud event only if all callbacks returned True
@@ -145,7 +151,13 @@ def post_save(sender, instance, created, raw, using, update_fields, **kwargs):
 
             # callbacks
             create_crud_event = call_callbacks(
-                instance, object_json_repr, created, raw, using, update_fields, **kwargs
+                instance,
+                object_json_repr,
+                created,
+                raw,
+                using,
+                update_fields,
+                **kwargs,
             )
 
             # Create crud event only if all callbacks returned True
