@@ -7,6 +7,7 @@ readme = "README.md"
 homepage = "https://github.com/houseworksinc/easyaudit-clickhouse"
 repository = "https://github.com/houseworksinc/easyaudit-clickhouse"
 documentation = "https://github.com/houseworksinc/easyaudit-clickhouse"
+
 classifiers = [
     "Environment :: Plugins",
     "Framework :: Django :: 4.2",
