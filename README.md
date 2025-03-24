@@ -1,4 +1,4 @@
-# easy-audit-clickhouse
+# easyaudit-clickhouse
 
 [![pypi](https://img.shields.io/pypi/v/django-easy-audit.svg)](https://pypi.org/project/django-easy-audit/)
 ![PyPI - Django Version](https://img.shields.io/pypi/frameworkversions/django/django-easy-audit)
@@ -17,7 +17,7 @@ This app allows you to keep track of every action taken by your users.
    djangorestframework>=3.15
    ```
 
-1. Install by running `pip install easy-audit-clickhouse`.
+1. Install by running `pip install easyaudit-clickhouse`.
 
 2. Add 'easyaudit' to your `INSTALLED_APPS` like this:
 

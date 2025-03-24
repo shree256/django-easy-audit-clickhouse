@@ -25,6 +25,7 @@ class ServiceHTTPClient(Session):
         headers = kwargs.get("headers", {})
         data = kwargs.get("data", {})
         error = None
+        response = None
 
         request_repr = {
             "endpoint": url,

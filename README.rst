@@ -1,5 +1,5 @@
 =======================
-easy-audit-clickhouse
+easyaudit-clickhouse
 =======================
 
 Logging implementation with clickhouse integration on top of django-easy-audit==1.3.7.
