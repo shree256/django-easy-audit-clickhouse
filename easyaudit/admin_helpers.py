@@ -25,13 +25,10 @@ def prettify_json(json_string):
 
 
 class EasyAuditModelAdmin(admin.ModelAdmin):
-    def get_changelist_instance(self, *args, **kwargs):
-        changelist_instance = super().get_changelist_instance(*args, **kwargs)
-        user_ids = [obj.user_id for obj in changelist_instance.result_list]
-        self.users_by_id = {
-            user.id: user for user in get_user_model().objects.filter(id__in=user_ids)
-        }
-        return changelist_instance
+    """
+    Removed get_changelist_instance()
+    to handle user fk to user_id change in models.py
+    """
 
     def get_readonly_fields(self, request, obj=None):
         """Mark all fields of model as readonly if configured to do so."""
@@ -116,7 +113,9 @@ class EasyAuditModelAdmin(admin.ModelAdmin):
                     n = modeladmin.model.objects.count()
                     truncate_table(modeladmin.model)
                     modeladmin.message_user(
-                        request, _("Successfully removed %d rows" % n), messages.SUCCESS
+                        request,
+                        _("Successfully removed %d rows" % n),
+                        messages.SUCCESS,
                     )
                 except Exception as e:
                     modeladmin.message_user(

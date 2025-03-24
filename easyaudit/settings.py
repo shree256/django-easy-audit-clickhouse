@@ -8,7 +8,7 @@ from django.contrib.sessions.models import Session
 from django.db.migrations import Migration
 from django.db.migrations.recorder import MigrationRecorder
 
-from easyaudit.models import CRUDEvent, LoginEvent
+from easyaudit.models import CRUDEvent, LoginEvent, ExternalServiceLog
 
 
 def get_model_list(class_list):
@@ -35,7 +35,9 @@ USER_DB_CONSTRAINT = bool(getattr(settings, "DJANGO_EASY_AUDIT_USER_DB_CONSTRAIN
 
 # logging backend settings
 LOGGING_BACKEND = getattr(
-    settings, "DJANGO_EASY_AUDIT_LOGGING_BACKEND", "easyaudit.backends.ModelBackend"
+    settings,
+    "DJANGO_EASY_AUDIT_LOGGING_BACKEND",
+    "easyaudit.backends.ModelBackend",
 )
 
 # Models which Django Easy Audit will not log.
@@ -45,6 +47,7 @@ LOGGING_BACKEND = getattr(
 UNREGISTERED_CLASSES = [
     CRUDEvent,
     LoginEvent,
+    ExternalServiceLog,
     Migration,
     Session,
     Permission,
@@ -58,7 +61,9 @@ if apps.is_installed("django.contrib.admin"):
     UNREGISTERED_CLASSES += [LogEntry]
 
 UNREGISTERED_CLASSES = getattr(
-    settings, "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_DEFAULT", UNREGISTERED_CLASSES
+    settings,
+    "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_DEFAULT",
+    UNREGISTERED_CLASSES,
 )
 UNREGISTERED_CLASSES.extend(
     getattr(settings, "DJANGO_EASY_AUDIT_UNREGISTERED_CLASSES_EXTRA", [])
@@ -107,10 +112,14 @@ ADMIN_SHOW_REQUEST_EVENTS = getattr(
 # project defined callbacks
 CRUD_DIFFERENCE_CALLBACKS = []
 CRUD_DIFFERENCE_CALLBACKS = getattr(
-    settings, "DJANGO_EASY_AUDIT_CRUD_DIFFERENCE_CALLBACKS", CRUD_DIFFERENCE_CALLBACKS
+    settings,
+    "DJANGO_EASY_AUDIT_CRUD_DIFFERENCE_CALLBACKS",
+    CRUD_DIFFERENCE_CALLBACKS,
 )
 DATABASE_ALIAS = getattr(
-    settings, "DJANGO_EASY_AUDIT_DATABASE_ALIAS", django.db.utils.DEFAULT_DB_ALIAS
+    settings,
+    "DJANGO_EASY_AUDIT_DATABASE_ALIAS",
+    django.db.utils.DEFAULT_DB_ALIAS,
 )
 # The callbacks could come in as an iterable of strings, where each string is the
 # package.module.function
@@ -151,7 +160,7 @@ CRUD_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_CRUD_EVENT_LIST_FILTER",
     [
         "event_type",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -160,7 +169,7 @@ LOGIN_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_LOGIN_EVENT_LIST_FILTER",
     [
         "login_type",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -169,7 +178,7 @@ REQUEST_EVENT_LIST_FILTER = getattr(
     "DJANGO_EASY_AUDIT_REQUEST_EVENT_LIST_FILTER",
     [
         "method",
-        "user",
+        "user_id",
         "created_at",
     ],
 )
@@ -196,7 +205,7 @@ REQUEST_EVENT_SEARCH_FIELDS = getattr(
     "DJANGO_EASY_AUDIT_REQUEST_EVENT_SEARCH_FIELDS",
     [
         "=remote_ip",
-        "user__username",
+        "user_id",
         "url",
         "query_string",
     ],
@@ -209,3 +218,4 @@ CLICKHOUSE_HOST = getattr(settings, "CLICKHOUSE_HOST", "localhost")
 CLICKHOUSE_USER = getattr(settings, "CLICKHOUSE_USER", "user")
 CLICKHOUSE_PASSWORD = getattr(settings, "CLICKHOUSE_PASSWORD", "password")
 CLICKHOUSE_DATABASE = getattr(settings, "CLICKHOUSE_DATABASE", "database")
+SEND_LOGS_TO_CLICKHOUSE = getattr(settings, "SEND_LOGS_TO_CLICKHOUSE", False)

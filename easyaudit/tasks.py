@@ -4,19 +4,27 @@ from datetime import timedelta
 import clickhouse_connect
 from django.utils.timezone import now
 
-from .models import CRUDEvent, LoginEvent
-from .serializers import CRUDEventSerializer, LoginEventSerializer
+from .models import CRUDEvent, LoginEvent, ExternalServiceLog
+from .serializers import (
+    CRUDEventSerializer,
+    LoginEventSerializer,
+    ExternalServiceLogSerializer,
+)
 from .settings import (
-    CLICKHOUSE_HOST,
-    CLICKHOUSE_USER,
-    CLICKHOUSE_PASSWORD,
     CLICKHOUSE_DATABASE,
+    CLICKHOUSE_HOST,
+    CLICKHOUSE_PASSWORD,
+    CLICKHOUSE_USER,
+    SEND_LOGS_TO_CLICKHOUSE,
 )
 
 logger = logging.getLogger(__name__)
 
 
 def send_logs_to_clickhouse():
+    if not SEND_LOGS_TO_CLICKHOUSE:
+        return
+
     logger.info("Clickhouse: Initiating data transfer...")
 
     # Get the timestamp for 24 hours ago
@@ -32,15 +40,27 @@ def send_logs_to_clickhouse():
     login_serializer = LoginEventSerializer(login_logs, many=True)
     login_row_matrix = [list(log.values()) for log in login_serializer.data]
 
+    # External Service logs
+    external_service_logs = ExternalServiceLog.objects.filter(
+        created_at__gte=time_threshold
+    )
+    external_service_serializer = ExternalServiceLogSerializer(
+        external_service_logs, many=True
+    )
+    external_service_row_matrix = [
+        list(log.values()) for log in external_service_serializer.data
+    ]
+
     logger.info(
-        "Clickhouse: Collected %s crud logs and %s login logs",
+        "Clickhouse: Collected (%s crud logs, %s login logs, %s external service logs)",
         len(crud_row_matrix),
         len(login_row_matrix),
+        len(external_service_row_matrix),
     )
 
     insert_data = {
         "crud_logs": {
-            "table": f"{CLICKHOUSE_DATABASE}.audit_crudevent",
+            "table": f"{CLICKHOUSE_DATABASE}.crud_event",
             "data": crud_row_matrix,
             "column_names": [
                 "event_type",
@@ -49,13 +69,12 @@ def send_logs_to_clickhouse():
                 "object_json_repr",
                 "changed_fields",
                 "user_id",
-                "user_pk_as_string",
                 "created_at",
             ],
             "object": crud_logs,
         },
         "login_logs": {
-            "table": f"{CLICKHOUSE_DATABASE}.audit_loginevent",
+            "table": f"{CLICKHOUSE_DATABASE}.login_event",
             "data": login_row_matrix,
             "column_names": [
                 "login_type",
@@ -65,6 +84,21 @@ def send_logs_to_clickhouse():
                 "created_at",
             ],
             "object": login_logs,
+        },
+        "external_service_logs": {
+            "table": f"{CLICKHOUSE_DATABASE}.external_service",
+            "data": external_service_row_matrix,
+            "column_names": [
+                "service_name",
+                "protocol",
+                "request_repr",
+                "response_repr",
+                "error_message",
+                "execution_time",
+                "created_at",
+                "user_id",
+            ],
+            "object": external_service_logs,
         },
     }
 
