@@ -2,9 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.DS_Store
+pytest.xml
 
 # C extensions
 *.so
+.pypirc
 
 # Distribution / packaging
 .Python

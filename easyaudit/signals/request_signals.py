@@ -100,5 +100,6 @@ def request_started_handler(sender, **kwargs):
 
 if WATCH_REQUEST_EVENTS:
     request_started.connect(
-        request_started_handler, dispatch_uid="easy_audit_signals_request_started"
+        request_started_handler,
+        dispatch_uid="easy_audit_signals_request_started",
     )
