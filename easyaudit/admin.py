@@ -11,6 +11,7 @@ from .models import CRUDEvent, LoginEvent, ExternalServiceLog
 from .settings import (
     ADMIN_SHOW_AUTH_EVENTS,
     ADMIN_SHOW_MODEL_EVENTS,
+    ADMIN_SHOW_EXTERNAL_SERVICE_LOG,
     CRUD_EVENT_LIST_FILTER,
     CRUD_EVENT_SEARCH_FIELDS,
     LOGIN_EVENT_LIST_FILTER,
@@ -124,12 +125,6 @@ class LoginEventAdmin(EasyAuditModelAdmin):
     actions = [export_to_csv]
 
 
-if ADMIN_SHOW_MODEL_EVENTS:
-    admin.site.register(CRUDEvent, CRUDEventAdmin)
-if ADMIN_SHOW_AUTH_EVENTS:
-    admin.site.register(LoginEvent, LoginEventAdmin)
-
-
 class ExternalServiceLogAdmin(EasyAuditModelAdmin):
     list_display = [
         "service_name",
@@ -137,6 +132,21 @@ class ExternalServiceLogAdmin(EasyAuditModelAdmin):
         "created_at",
     ]
     date_hierarchy = "created_at"
+    readonly_fields = [
+        "service_name",
+        "protocol",
+        "request_repr",
+        "response_repr",
+        "error_message",
+        "execution_time",
+        "created_at",
+        "user_id",
+    ]
 
 
-admin.site.register(ExternalServiceLog, ExternalServiceLogAdmin)
+if ADMIN_SHOW_MODEL_EVENTS:
+    admin.site.register(CRUDEvent, CRUDEventAdmin)
+if ADMIN_SHOW_AUTH_EVENTS:
+    admin.site.register(LoginEvent, LoginEventAdmin)
+if ADMIN_SHOW_EXTERNAL_SERVICE_LOG:
+    admin.site.register(ExternalServiceLog, ExternalServiceLogAdmin)
