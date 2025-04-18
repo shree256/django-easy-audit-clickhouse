@@ -11,10 +11,11 @@ from .serializers import (
     ExternalServiceLogSerializer,
 )
 from .settings import (
-    CLICKHOUSE_DATABASE,
-    CLICKHOUSE_HOST,
-    CLICKHOUSE_PASSWORD,
     CLICKHOUSE_USER,
+    CLICKHOUSE_PASSWORD,
+    CLICKHOUSE_HOST,
+    CLICKHOUSE_PORT,
+    CLICKHOUSE_DATABASE,
     SEND_LOGS_TO_CLICKHOUSE,
 )
 
@@ -104,9 +105,10 @@ def send_logs_to_clickhouse():
 
     try:
         client = clickhouse_connect.get_client(
-            host=CLICKHOUSE_HOST,
             user=CLICKHOUSE_USER,
             password=CLICKHOUSE_PASSWORD,
+            host=CLICKHOUSE_HOST,
+            port=CLICKHOUSE_PORT,
             secure=True,
         )
 
