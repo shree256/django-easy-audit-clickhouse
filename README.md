@@ -45,8 +45,9 @@ This app allows you to keep track of every action taken by your users.
    CLICKHOUSE_USER = 'user'
    CLICKHOUSE_PASSWORD = 'password'
    CLICKHOUSE_HOST = 'localhost'
-   CLICKHOUSE_PORT = '8123'
+   CLICKHOUSE_PORT = 8123
    CLICKHOUSE_DATABASE = 'default'
+   CLICKHOUSE_SECURE = False
    ```
 
 6. Create shared task of `send_logs_to_clickhouse` to sync data from django to clickhouse:

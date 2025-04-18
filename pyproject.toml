@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-easy-audit-clickhouse"
-version = "2.0.1"
+version = "2.0.2"
 description = "Log library with ClickHouse integration"
 license = "GPL3"
 readme = "README.md"

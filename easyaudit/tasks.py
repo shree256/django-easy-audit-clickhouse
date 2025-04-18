@@ -16,6 +16,7 @@ from .settings import (
     CLICKHOUSE_HOST,
     CLICKHOUSE_PORT,
     CLICKHOUSE_DATABASE,
+    CLICKHOUSE_SECURE,
     SEND_LOGS_TO_CLICKHOUSE,
 )
 
@@ -109,7 +110,7 @@ def send_logs_to_clickhouse():
             password=CLICKHOUSE_PASSWORD,
             host=CLICKHOUSE_HOST,
             port=CLICKHOUSE_PORT,
-            secure=True,
+            secure=CLICKHOUSE_SECURE,
         )
 
         for table, data in insert_data.items():
