@@ -42,9 +42,10 @@ This app allows you to keep track of every action taken by your users.
 5. Configure the ClickHouse connection in your settings.py:
 
    ```python
-   CLICKHOUSE_HOST = 'localhost'
    CLICKHOUSE_USER = 'user'
    CLICKHOUSE_PASSWORD = 'password'
+   CLICKHOUSE_HOST = 'localhost'
+   CLICKHOUSE_PORT = '8123'
    CLICKHOUSE_DATABASE = 'default'
    ```
 

@@ -30,9 +30,10 @@ Quick start
 
 5. Configure the ClickHouse connection in your settings.py::
 
-    CLICKHOUSE_HOST = 'localhost'
     CLICKHOUSE_USER = 'user'
     CLICKHOUSE_PASSWORD = 'password'
+    CLICKHOUSE_HOST = 'localhost'
+    CLICKHOUSE_PORT = '8123'
     CLICKHOUSE_DATABASE = 'default'
 
 6. Create shared task of `send_logs_to_clickhouse` to sync data from django to clickhouse::

@@ -216,8 +216,9 @@ REQUEST_EVENT_SEARCH_FIELDS = getattr(
 READONLY_EVENTS = getattr(settings, "DJANGO_EASY_AUDIT_READONLY_EVENTS", False)
 
 # Clickhouse settings
-CLICKHOUSE_HOST = getattr(settings, "CLICKHOUSE_HOST", "localhost")
 CLICKHOUSE_USER = getattr(settings, "CLICKHOUSE_USER", "user")
 CLICKHOUSE_PASSWORD = getattr(settings, "CLICKHOUSE_PASSWORD", "password")
+CLICKHOUSE_HOST = getattr(settings, "CLICKHOUSE_HOST", "localhost")
+CLICKHOUSE_PORT = getattr(settings, "CLICKHOUSE_PORT", 8123)
 CLICKHOUSE_DATABASE = getattr(settings, "CLICKHOUSE_DATABASE", "database")
 SEND_LOGS_TO_CLICKHOUSE = getattr(settings, "SEND_LOGS_TO_CLICKHOUSE", False)
