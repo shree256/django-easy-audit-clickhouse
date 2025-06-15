@@ -5,7 +5,7 @@ import logging
 from typing import Tuple, Optional
 from requests.sessions import Session
 
-from .models import ExternalServiceLog
+# from .models import ExternalServiceLog
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class ServiceHTTPClient(Session):
         else:
             payload["response_repr"] = str(response_repr)
 
-        ExternalServiceLog.objects.create(**payload)
+        # ExternalServiceLog.objects.create(**payload)
 
         return response
 
@@ -93,9 +93,9 @@ class ServiceSFTPClient:
             "execution_time": 0,
         }
 
-    def __create_log(self):
-        log = ExternalServiceLog.objects.create(**self.log_payload)
-        print("Log obj created")
+    # def __create_log(self):
+    #     log = ExternalServiceLog.objects.create(**self.log_payload)
+    #     print("Log obj created")
 
     def connect(
         self,
@@ -151,12 +151,12 @@ class ServiceSFTPClient:
                     result = f"{filename} uploaded successfully to {path_to_folder}"
                     logger.info(f"{result}")
                 except Exception as e:
-                    self.log_payload[
-                        "error_message"
-                    ] = f"File upload failed. Error: {str(e)}"
-            self.log_payload[
-                "error_message"
-            ] = f"Path validation failed. Error: {str(error)}"
+                    self.log_payload["error_message"] = (
+                        f"File upload failed. Error: {str(e)}"
+                    )
+            self.log_payload["error_message"] = (
+                f"Path validation failed. Error: {str(error)}"
+            )
         else:
             self.log_payload["error_message"] = "Connection not established"
 
@@ -165,7 +165,7 @@ class ServiceSFTPClient:
         self.log_payload["response_repr"] = {"message": result}
         self.log_payload["execution_time"] = execution_time
 
-        self.__create_log()
+        # self.__create_log()
 
         return result
 
